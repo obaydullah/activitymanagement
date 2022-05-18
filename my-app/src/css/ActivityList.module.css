@@ -1,0 +1,22 @@
+
+  /* UserList Start  */
+  .userlist {
+    margin-top: 5rem;
+    width: 96%;
+  }
+  .userTable {
+      width: 100%;
+      text-align: center;
+      border-collapse: separate;
+      border-spacing: 1rem;
+  }
+  .tableHead th {
+      background-color: #F0F0F0;
+      padding: .5rem;
+  }
+  .tableBody td {
+    background-color: #6850f0;
+    padding: .5rem;
+    color: #fff;
+    font-size: 1.2rem;
+  }
