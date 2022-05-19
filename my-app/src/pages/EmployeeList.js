@@ -1,28 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from "../css/EmployeeList.module.css";
 
 export default function EmployeeList() {
+  let [name, setName] = useState("");
+  let [officetime, setOfficetime] = useState("");
+  let [designation, setDesignation] = useState("");
+  let [dayoff, setDayOff] = useState("");
+  let [phone, setPhone] = useState();
+  let [data, setData] = useState([]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post("http://localhost:8000/employeelist", {
+        name,
+        officetime,
+        designation,
+        dayoff,
+        phone,
+      })
+      .then(() => {
+        setName("");
+        setOfficetime("");
+        setDesignation("");
+        setDayOff("");
+        setPhone("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const employeeFunc = async () => {
+      let { data } = await axios.get("http://localhost:8000/employeelist");
+      setData(data);
+    };
+    employeeFunc();
+  }, [data]);
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.userForm}>
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <div className={styles.formgroup}>
-              <input type="text" placeholder="name" />
-              <input type="text" placeholder="Office Time" />
-            </div>
-            <div className={styles.formgroup}>
-              <input type="text" placeholder="designation" />
-              <input type="text" placeholder="Day Off " />
+              <input
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                placeholder="name"
+                value={name}
+              />
+              <input
+                onChange={(e) => setOfficetime(e.target.value)}
+                type="text"
+                placeholder="Office Time"
+                value={officetime}
+              />
             </div>
             <div className={styles.formgroup}>
               <input
+                onChange={(e) => setDesignation(e.target.value)}
+                type="text"
+                placeholder="designation"
+                value={designation}
+              />
+              <input
+                onChange={(e) => setDayOff(e.target.value)}
+                type="text"
+                placeholder="Day Off "
+                value={dayoff}
+              />
+            </div>
+            <div className={styles.formgroup}>
+              <input
+                onChange={(e) => setPhone(e.target.value)}
                 type="number"
                 placeholder="Phone"
+                value={phone}
                 className={styles.inputnumber}
               />
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" onClick={handleSubmit} />
           </form>
         </div>
         <div className={styles.userlist}>
@@ -37,13 +97,15 @@ export default function EmployeeList() {
               </tr>
             </thead>
             <tbody className={styles.tableBody}>
-              <tr>
-                <td>Obaydullah</td>
-                <td>Front-end Developer</td>
-                <td>10-8</td>
-                <td>Sunday</td>
-                <td>01963851464</td>
-              </tr>
+              {data.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.name}</td>
+                  <td>{item.designation}</td>
+                  <td>{item.officetime}</td>
+                  <td>{item.offday}</td>
+                  <td>{item.phone}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../css/ActivityList.module.css";
+import axios from "axios";
 
 export default function ActivityList() {
+  let [data, setData] = useState([]);
+
+  useEffect(() => {
+    const activityFunc = async () => {
+      let { data } = await axios.get("http://localhost:8000/activity");
+      setData(data);
+    };
+    activityFunc();
+  }, [data]);
+
   return (
     <div className={styles.container}>
       <div className={styles.userlist}>
@@ -14,11 +25,13 @@ export default function ActivityList() {
             </tr>
           </thead>
           <tbody className={styles.tableBody}>
-            <tr>
-              <td>Ecommarce</td>
-              <td>2H</td>
-              <td>Login Registration page donw with form validation</td>
-            </tr>
+            {data.map((item) => (
+              <tr key={item._id}>
+                <td>{item.name}</td>
+                <td>{item.hour}</td>
+                <td>{item.details}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

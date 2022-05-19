@@ -12,16 +12,16 @@ export default function Sidebar({ children }) {
           <img src="./images/elon.jpg" alt="Elon Musk" />
           <ul className="userInfo">
             <li>
-              <span>Name :</span> Md. Obaydullah
+              <span>Name :</span> Elom Musk
             </li>
             <li>
-              <span>Designation : </span>Front-end Developer
+              <span>Designation : </span>CEO
             </li>
             <li>
-              <span>Office Time : </span>10 - 8
+              <span>Office Time : </span>9 - 5
             </li>
             <li>
-              <span>Off Day :</span> Sunday{" "}
+              <span>Off Day :</span> Friday
             </li>
           </ul>
           <ul className="menu">
